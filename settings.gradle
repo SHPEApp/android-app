@@ -1,0 +1,3 @@
+# Android app directory structure
+rootProject.name = "SHIP Android"
+include(":app")

@@ -1,0 +1,2 @@
+-keep class com.unt.shpe.** { *; }
+-keepclassmembers class com.unt.shpe.** { *; }
