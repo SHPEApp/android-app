@@ -32,8 +32,8 @@ fun SignInScreen(
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
     val state by viewModel.state.collectAsState()
+    val isLoading = state == SessionViewModel.State.SIGNING_IN || state == SessionViewModel.State.SIGNING_OUT
 
     Column(
         modifier = Modifier

@@ -32,7 +32,8 @@ fun AccountScreen(
 ) {
     val memberName by accountViewModel.memberName.collectAsState()
     val attendanceCount by accountViewModel.attendanceCount.collectAsState()
-    val isLoading by sessionViewModel.isLoading.collectAsState()
+    val sessionState by sessionViewModel.state.collectAsState()
+    val isLoading = sessionState == SessionViewModel.State.SIGNING_OUT
 
     Column(
         modifier = Modifier

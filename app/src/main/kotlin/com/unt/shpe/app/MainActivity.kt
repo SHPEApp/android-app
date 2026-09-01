@@ -26,9 +26,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun ShipApp() {
-    // Main app navigation will be implemented here
-    // Map to iOS ContentView
-}

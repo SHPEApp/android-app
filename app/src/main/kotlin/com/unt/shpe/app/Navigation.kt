@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Calendar
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -81,7 +81,7 @@ fun ShipMainContent(
                     modifier = Modifier.testTag(TestTags.Tab.scan),
                 )
                 NavigationBarItem(
-                    icon = { Text("📅") },
+                    icon = { Icon(Icons.Filled.DateRange, contentDescription = null) },
                     label = { Text("Events") },
                     selected = selectedTab == AppTab.EVENTS,
                     onClick = { selectedTab = AppTab.EVENTS },
