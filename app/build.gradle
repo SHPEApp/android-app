@@ -1,17 +1,23 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
-    id "kotlin-kapt"
+    id "org.jetbrains.kotlin.plugin.compose"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
+        freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
+    }
 }
 
 android {
     namespace "com.unt.shpe"
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.unt.shpe"
         minSdk 28
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0.0"
 
@@ -27,21 +33,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
-        freeCompilerArgs += "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+        sourceCompatibility JavaVersion.toVersion(25)
+        targetCompatibility JavaVersion.toVersion(25)
     }
 
     buildFeatures {
         compose true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion "1.5.8"
     }
 }
 
