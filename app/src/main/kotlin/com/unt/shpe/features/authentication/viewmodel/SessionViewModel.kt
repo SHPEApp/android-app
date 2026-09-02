@@ -9,11 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-/**
- * ViewModel for authentication session management.
- * Manages sign-in/sign-out state and demo credentials validation.
- * Maps 1:1 with iOS SessionViewModel.
- */
 class SessionViewModel : ViewModel() {
     enum class State {
         SIGNED_OUT,

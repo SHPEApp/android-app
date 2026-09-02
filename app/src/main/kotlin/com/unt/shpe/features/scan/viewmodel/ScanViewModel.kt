@@ -9,11 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-/**
- * ViewModel for QR code scanning and attendance submission.
- * Manages scanner state, event selection, and attendance processing.
- * Maps 1:1 with iOS ScanViewModel.
- */
 class ScanViewModel : ViewModel() {
     private val _selectedEvent = MutableStateFlow(SampleEvents.samples[0])
     val selectedEvent: StateFlow<Event> = _selectedEvent.asStateFlow()

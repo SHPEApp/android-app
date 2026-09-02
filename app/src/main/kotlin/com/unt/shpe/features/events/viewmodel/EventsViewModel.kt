@@ -7,11 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-/**
- * ViewModel for events/calendar feature.
- * Manages event list, date selection, and event details.
- * Maps 1:1 with iOS EventsViewModel.
- */
 class EventsViewModel : ViewModel() {
     private val _events = MutableStateFlow(SampleEvents.samples)
     val events: StateFlow<List<Event>> = _events.asStateFlow()

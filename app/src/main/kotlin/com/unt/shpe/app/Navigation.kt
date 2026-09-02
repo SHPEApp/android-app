@@ -34,10 +34,6 @@ import com.unt.shpe.features.newsletters.viewmodel.NewslettersViewModel
 import com.unt.shpe.features.scan.ui.ScanScreen
 import com.unt.shpe.features.scan.viewmodel.ScanViewModel
 
-/**
- * Root app navigation and main content view.
- * Maps 1:1 with iOS ContentView and AppRootView.
- */
 @Composable
 fun ShipApp() {
     ShpeTheme {

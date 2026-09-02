@@ -22,10 +22,6 @@ import androidx.compose.ui.unit.dp
 import com.unt.shpe.features.events.model.Event
 import com.unt.shpe.features.events.viewmodel.EventsViewModel
 
-/**
- * Events/calendar screen displaying upcoming events.
- * Maps 1:1 with iOS EventsView.
- */
 @Composable
 fun EventsScreen(viewModel: EventsViewModel) {
     val events by viewModel.events.collectAsState()

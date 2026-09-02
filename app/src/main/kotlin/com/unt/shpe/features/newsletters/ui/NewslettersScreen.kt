@@ -15,10 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.unt.shpe.features.newsletters.viewmodel.NewslettersViewModel
 
-/**
- * Newsletters screen displaying available newsletters.
- * Maps 1:1 with iOS NewslettersView.
- */
 @Composable
 fun NewslettersScreen(viewModel: NewslettersViewModel) {
     val newsletters by viewModel.newsletters.collectAsState()

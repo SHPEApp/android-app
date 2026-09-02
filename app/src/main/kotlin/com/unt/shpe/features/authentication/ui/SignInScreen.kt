@@ -20,10 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.unt.shpe.app.TestTags
 import com.unt.shpe.features.authentication.viewmodel.SessionViewModel
 
-/**
- * Sign-in screen for user authentication.
- * Maps 1:1 with iOS SignInView.
- */
 @Composable
 fun SignInScreen(
     viewModel: SessionViewModel,

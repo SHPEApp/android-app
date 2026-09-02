@@ -5,10 +5,6 @@ import com.unt.shpe.features.events.model.Event
 import com.unt.shpe.features.events.model.SampleEvents
 import java.time.LocalDateTime
 
-/**
- * Mock data store for demo/testing purposes.
- * Maps 1:1 with iOS MockDataStore.
- */
 object MockDataStore {
     fun getMockEvents(): List<Event> = SampleEvents.samples
 

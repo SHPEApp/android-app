@@ -1,9 +1,5 @@
 package com.unt.shpe.app
 
-/**
- * Centralized test tags and accessibility identifiers for UI automation.
- * Maps 1:1 with iOS AccessibilityID for consistent test coverage.
- */
 object TestTags {
     object Authentication {
         const val email = "authentication.email"

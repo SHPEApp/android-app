@@ -6,10 +6,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-/**
- * SHPE app color scheme.
- * Maps 1:1 with iOS Brand colors.
- */
+
 private val ShpeColors = lightColorScheme(
     primary = Brand.green,
     background = Brand.background,

@@ -4,11 +4,6 @@ import com.unt.shpe.features.account.model.AccountNotification
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-/**
- * Repository for notification data access.
- * Bridges between ViewModel and backend services.
- * Maps 1:1 with iOS NotificationRepository.
- */
 class NotificationRepository {
     suspend fun fetchNotifications(): Flow<List<AccountNotification>> {
         // Fetch from backend

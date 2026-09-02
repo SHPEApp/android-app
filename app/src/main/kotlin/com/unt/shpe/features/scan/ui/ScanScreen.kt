@@ -25,10 +25,6 @@ import com.unt.shpe.app.TestTags
 import com.unt.shpe.features.events.model.SampleEvents
 import com.unt.shpe.features.scan.viewmodel.ScanViewModel
 
-/**
- * QR code scanning screen for attendance.
- * Maps 1:1 with iOS ScanView.
- */
 @Composable
 fun ScanScreen(viewModel: ScanViewModel) {
     val selectedEvent by viewModel.selectedEvent.collectAsState()

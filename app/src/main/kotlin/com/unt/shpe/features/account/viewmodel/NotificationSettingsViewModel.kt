@@ -1,27 +1,45 @@
 package com.unt.shpe.features.account.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.unt.shpe.features.account.service.NotificationPermissionService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-/**
- * ViewModel for notification settings.
- * Manages push notification preferences.
- * Maps 1:1 with iOS NotificationSettingsViewModel.
- */
-class NotificationSettingsViewModel : ViewModel() {
-    private val _eventRemindersEnabled = MutableStateFlow(true)
-    val eventRemindersEnabled: StateFlow<Boolean> = _eventRemindersEnabled.asStateFlow()
+class NotificationSettingsViewModel(
+    private val permissionService: NotificationPermissionService
+) : ViewModel() {
+    enum class PermissionState {
+        UNKNOWN,
+        NOT_DETERMINED,
+        AUTHORIZED,
+        DENIED
+    }
 
-    private val _newsletterUpdatesEnabled = MutableStateFlow(true)
-    val newsletterUpdatesEnabled: StateFlow<Boolean> = _newsletterUpdatesEnabled.asStateFlow()
+    private val _eventReminders = MutableStateFlow(true)
+    val eventReminders: StateFlow<Boolean> = _eventReminders.asStateFlow()
+
+    private val _newsletterUpdates = MutableStateFlow(true)
+    val newsletterUpdates: StateFlow<Boolean> = _newsletterUpdates.asStateFlow()
+
+    private val _permissionState = MutableStateFlow(PermissionState.UNKNOWN)
+    val permissionState: StateFlow<PermissionState> = _permissionState.asStateFlow()
 
     fun toggleEventReminders() {
-        _eventRemindersEnabled.value = !_eventRemindersEnabled.value
+        _eventReminders.value = !_eventReminders.value
     }
 
     fun toggleNewsletterUpdates() {
-        _newsletterUpdatesEnabled.value = !_newsletterUpdatesEnabled.value
+        _newsletterUpdates.value = !_newsletterUpdates.value
+    }
+
+    fun loadPermissionState() {
+        val isEnabled = permissionService.areNotificationsEnabled()
+        _permissionState.value = if (isEnabled) PermissionState.AUTHORIZED else PermissionState.DENIED
+    }
+
+    fun enableNotifications() {
+        permissionService.requestNotificationPermission()
+        loadPermissionState()
     }
 }
