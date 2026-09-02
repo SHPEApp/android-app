@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+import java.time.LocalDate
+
 class EventsViewModel : ViewModel() {
     private val _events = MutableStateFlow(SampleEvents.samples)
     val events: StateFlow<List<Event>> = _events.asStateFlow()
@@ -14,11 +16,22 @@ class EventsViewModel : ViewModel() {
     private val _selectedEvent = MutableStateFlow<Event?>(null)
     val selectedEvent: StateFlow<Event?> = _selectedEvent.asStateFlow()
 
+    private val _selectedMonth = MutableStateFlow(LocalDate.now())
+    val selectedMonth: StateFlow<LocalDate> = _selectedMonth.asStateFlow()
+
     fun selectEvent(event: Event) {
         _selectedEvent.value = event
     }
 
     fun clearSelection() {
         _selectedEvent.value = null
+    }
+
+    fun moveMonth(by: Int) {
+        _selectedMonth.value = _selectedMonth.value.plusMonths(by.toLong())
+    }
+
+    fun selectDate(date: LocalDate) {
+        _selectedMonth.value = date
     }
 }
