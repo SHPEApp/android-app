@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SessionViewModel : ViewModel() {
+class SessionViewModel(
+    private val authenticationDelay: Long = 350
+) : ViewModel() {
     enum class State {
         SIGNED_OUT,
         SIGNING_IN,
@@ -48,29 +50,29 @@ class SessionViewModel : ViewModel() {
         viewModelScope.launch {
             val trimmedEmail = _email.value.trim()
             
-            when {
-                trimmedEmail.isEmpty() -> {
-                    _errorMessage.value = "Enter your email address."
-                    _state.value = State.FAILED
-                }
-                _password.value.length < 6 -> {
-                    _errorMessage.value = "Enter a password with at least 6 characters."
-                    _state.value = State.FAILED
-                }
-                trimmedEmail.equals(DemoCredentials.workingEmail, ignoreCase = true) &&
-                _password.value == DemoCredentials.workingPassword -> {
-                    _state.value = State.SIGNING_IN
-                    _errorMessage.value = null
-                    
-                    // Simulate authentication delay
-                    delay(350)
-                    
-                    _state.value = State.SIGNED_IN
-                }
-                else -> {
-                    _errorMessage.value = "Invalid demo credentials."
-                    _state.value = State.FAILED
-                }
+            if (trimmedEmail.isEmpty()) {
+                _errorMessage.value = "Enter your email address."
+                _state.value = State.FAILED
+                return@launch
+            }
+            
+            if (_password.value.length < 6) {
+                _errorMessage.value = "Enter a password with at least 6 characters."
+                _state.value = State.FAILED
+                return@launch
+            }
+            
+            if (trimmedEmail.equals(DemoCredentials.workingEmail, ignoreCase = true) &&
+                _password.value == DemoCredentials.workingPassword) {
+                _state.value = State.SIGNING_IN
+                _errorMessage.value = null
+                
+                delay(authenticationDelay)
+                
+                _state.value = State.SIGNED_IN
+            } else {
+                _errorMessage.value = "Invalid demo credentials."
+                _state.value = State.FAILED
             }
         }
     }
@@ -80,8 +82,7 @@ class SessionViewModel : ViewModel() {
             _state.value = State.SIGNING_OUT
             _errorMessage.value = null
             
-            // Simulate sign-out delay
-            delay(350)
+            delay(authenticationDelay)
             
             _email.value = ""
             _password.value = ""

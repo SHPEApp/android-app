@@ -1,23 +1,22 @@
 package com.unt.shpe.features.authentication.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.unt.shpe.app.TestTags
+import com.unt.shpe.design.*
+import com.unt.shpe.features.authentication.model.DemoCredentials
 import com.unt.shpe.features.authentication.viewmodel.SessionViewModel
 
 @Composable
@@ -31,59 +30,153 @@ fun SignInScreen(
     val state by viewModel.state.collectAsState()
     val isLoading = state == SessionViewModel.State.SIGNING_IN || state == SessionViewModel.State.SIGNING_OUT
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text("SHPE Sign In")
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        TextField(
-            value = email,
-            onValueChange = viewModel::updateEmail,
-            label = { Text("Email") },
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .testTag(TestTags.Authentication.email),
-            enabled = !isLoading,
-        )
+                .fillMaxSize()
+                .background(Brand.background)
+                .verticalScroll(rememberScrollState())
+                .padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(28.dp)
+        ) {
+            // Header
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(
+                    text = "UNT SHPE",
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = Brand.green
+                )
+                Text(
+                    text = "Sign in to continue",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Brand.ink
+                )
+                Text(
+                    text = "Access attendance, events, newsletters, and your member account.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
 
-        Spacer(modifier = Modifier.height(12.dp))
+            // Credentials Form
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                TextField(
+                    value = email,
+                    onValueChange = viewModel::updateEmail,
+                    placeholder = { Text("Email address") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(TestTags.Authentication.email),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    ),
+                    shape = MaterialTheme.shapes.medium,
+                    enabled = !isLoading,
+                    singleLine = true
+                )
 
-        TextField(
-            value = password,
-            onValueChange = viewModel::updatePassword,
-            label = { Text("Password") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .testTag(TestTags.Authentication.password),
-            enabled = !isLoading,
-        )
+                TextField(
+                    value = password,
+                    onValueChange = viewModel::updatePassword,
+                    placeholder = { Text("Password") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag(TestTags.Authentication.password),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
+                    ),
+                    shape = MaterialTheme.shapes.medium,
+                    enabled = !isLoading,
+                    singleLine = true
+                )
+            }
 
-        if (errorMessage != null) {
-            Spacer(modifier = Modifier.height(12.dp))
+            // Demo Credentials
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                SHPESectionTitle("DEMO LOGIN")
+
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Button(
+                        onClick = {
+                            viewModel.updateEmail(DemoCredentials.workingEmail)
+                            viewModel.updatePassword(DemoCredentials.workingPassword)
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .testTag(TestTags.Authentication.workingDemo),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Brand.green.copy(alpha = 0.1f),
+                            contentColor = Brand.green
+                        ),
+                        shape = MaterialTheme.shapes.medium
+                    ) {
+                        Text("Working login")
+                    }
+
+                    Button(
+                        onClick = {
+                            viewModel.updateEmail(DemoCredentials.failedEmail)
+                            viewModel.updatePassword(DemoCredentials.failedPassword)
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .testTag(TestTags.Authentication.failedDemo),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Red.copy(alpha = 0.1f),
+                            contentColor = Color.Red
+                        ),
+                        shape = MaterialTheme.shapes.medium
+                    ) {
+                        Text("Failed login")
+                    }
+                }
+
+                Text(
+                    text = "Working: demo@unt.edu / SHPE2026!",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            // Sign In Button
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                SHPEPrimaryButton(
+                    onClick = viewModel::signIn,
+                    modifier = Modifier.testTag(TestTags.Authentication.signIn)
+                ) {
+                    Text("Sign In")
+                }
+
+                if (errorMessage != null) {
+                    Text(
+                        text = errorMessage!!,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Red,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .testTag(TestTags.Authentication.error)
+                    )
+                }
+            }
+
             Text(
-                errorMessage ?: "",
-                modifier = Modifier.testTag(TestTags.Authentication.error),
-                color = androidx.compose.material3.MaterialTheme.colorScheme.error,
+                text = "Authentication service connection will be added once the approved UNT or SHPE provider is confirmed.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Button(
-            onClick = viewModel::signIn,
-            modifier = Modifier
-                .fillMaxWidth()
-                .testTag(TestTags.Authentication.signIn),
-            enabled = !isLoading,
-        ) {
-            Text(if (isLoading) "Signing In..." else "Sign In")
-        }
+        SHPELoadingOverlay(isVisible = state == SessionViewModel.State.SIGNING_IN)
 
         if (state == SessionViewModel.State.SIGNED_IN) {
             onSignInSuccess()
